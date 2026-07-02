@@ -1,0 +1,14 @@
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\bin\Debug\net10.0\ProjectReference.exe
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\bin\Debug\net10.0\ProjectReference.deps.json
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\bin\Debug\net10.0\ProjectReference.runtimeconfig.json
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\bin\Debug\net10.0\ProjectReference.dll
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\bin\Debug\net10.0\ProjectReference.pdb
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.GeneratedMSBuildEditorConfig.editorconfig
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.AssemblyInfoInputs.cache
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.AssemblyInfo.cs
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.csproj.CoreCompileInputs.cache
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.dll
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\refint\ProjectReference.dll
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.pdb
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ProjectReference.genruntimeconfig.cache
+D:\csProj\ProjectReference\CustomRendering\ProjectReference\ProjectReference\obj\Debug\net10.0\ref\ProjectReference.dll
