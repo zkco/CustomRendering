@@ -62,9 +62,9 @@ public struct Vector3
     public static Vector3 Cross(Vector3 u, Vector3 v)
     {
         return new Vector3(
+            u.x * v.y - u.y * v.x,   
             u.y * v.z - u.z * v.y,
-            u.z * v.x - u.x * v.z,
-            u.x * v.y - u.y * v.x   
+            u.z * v.x - u.x * v.z
         );
     }
 }

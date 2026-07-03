@@ -17,27 +17,27 @@
 
     public Color RayColor()
     {
-        double h = HitSphere(new Point3(0, 0, -1), 0.5, this);
-        if(h > 0.0)
+        double t = HitSphere(new Point3(0, 0, -1), 0.5, this);
+        if(t > 0.0)
         {
-            Vector3 N = (At(h) - new Point3(0, 0, -1)).normalized;
+            Vector3 N = (At(t) - new Point3(0, 0, -1)).normalized;
             return 0.5 * new Color(N.x + 1, N.y + 1, N.z + 1);
         }
 
-        Vector3 unitDirection = direction.normalized;
-        double t = 0.5 * (unitDirection.y + 1.0);
-        return (1.0 - t)* new Color(1.0, 1.0, 1.0) + t * new Color(0.5, 0.7, 1.0);
+        Vector3 unitDirection = this.direction.normalized;
+        double a = 0.5 * (unitDirection.y + 1.0);
+        return (1.0 - a)* new Color(1.0, 1.0, 1.0) + a * new Color(0.5, 0.7, 1.0);
     }
 
     private double HitSphere(in Point3 center, double radius, in Ray r)
     {
-        Vector3 oc = center - r.origin;
-        double a = Vector3.Dot(r.direction, r.direction);
-        double b = -2.0 * Vector3.Dot(r.direction, oc);
-        double c = Vector3.Dot(oc, oc) - radius * radius;
-        double discriminant = b * b - (4 * a * c);
+        Vector3 oc = center - r.origin; //(C-Q)
+        double a = Vector3.Dot(r.direction, r.direction); //x^2 + y^2 + z^2 = ray.magnitude^2
+        double h = Vector3.Dot(r.direction,oc); //r.direction * (C-Q) (내적의 곱)
+        double c = Vector3.Dot(oc, oc) - radius * radius; //(C-Q)^2 - radius^2
+        double discriminant = h * h - a * c;
 
         if (discriminant < 0) return -1.0;
-        else return (b - Math.Sqrt(discriminant)) / (2.0 * a);
+        else return (h - Math.Sqrt(discriminant)) / a;
     }
 }
