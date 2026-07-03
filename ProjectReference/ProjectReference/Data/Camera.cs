@@ -19,7 +19,7 @@
         this.viewportWidth = viewportHeight * aspectRatio;
         this.viewportU = new Vector3(viewportWidth, 0, 0);
         this.viewportV = new Vector3(0, -viewportHeight, 0);
-        this.viewportOrigin = cameraCenter - new Vector3(0, 0, -focalLength) - viewportU / 2 - viewportV / 2;
+        this.viewportOrigin = cameraCenter - new Vector3(0, 0, focalLength) - viewportU / 2 - viewportV / 2;
         this.cameraCenter = cameraPos;
         this.pixelU = viewportU / imageWidth;
         this.pixelV = viewportV / imageHeight;
