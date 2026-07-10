@@ -1,6 +1,6 @@
 ﻿public interface IHittable
 {
-    bool Hit(in Ray r, double tMin, double tMax, out HitRecord rec);
+    bool Hit(in Ray r, Interval rayT, out HitRecord rec);
 }
 
 public struct HitRecord
@@ -13,6 +13,7 @@ public struct HitRecord
     {
         frontFace = Vector3.Dot(r.direction, outwardNormal) < 0;
         normal = frontFace ? outwardNormal : -outwardNormal;
+        
     }
 }
 
@@ -40,18 +41,21 @@ public struct HittableList : IHittable
         objects.Add(obj);
     }
 
-    public bool Hit(in Ray r, double tMin, double tMax, out HitRecord rec)
+    public bool Hit(in Ray r, Interval rayT, out HitRecord rec)
     {
         rec = new HitRecord();
         bool hitAnything = false;
-        double closestSoFar = tMax;
+        double closestSoFar = rayT.max;
+
+        HitRecord tempRec;
 
         foreach(IHittable obj in objects)
         {
-            if (obj.Hit(r, tMin, closestSoFar, out rec))
+            if (obj.Hit(r, new Interval(rayT.min, closestSoFar), out tempRec))
             {
                 hitAnything = true;
                 closestSoFar = rec.t;
+                rec = tempRec;
             }
         }
         return hitAnything;

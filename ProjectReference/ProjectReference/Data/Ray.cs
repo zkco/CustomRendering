@@ -15,20 +15,6 @@
         return origin + direction * t;
     }
 
-    public Color RayColor()
-    {
-        double t = HitSphere(new Point3(0, 0, -1), 0.5, this);
-        if(t > 0.0)
-        {
-            Vector3 N = (At(t) - new Point3(0, 0, -1)).normalized;
-            return 0.5 * new Color(N.x + 1, N.y + 1, N.z + 1);
-        }
-
-        Vector3 unitDirection = this.direction.normalized;
-        double a = 0.5 * (unitDirection.y + 1.0);
-        return (1.0 - a)* new Color(1.0, 1.0, 1.0) + a * new Color(0.5, 0.7, 1.0);
-    }
-
     private double HitSphere(in Point3 center, double radius, in Ray r)
     {
         //(C-Q)

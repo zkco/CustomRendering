@@ -4,11 +4,11 @@ public static class ColorUtility
 {
     public static void WriteColor(Color color, StringBuilder sb)
     {
-        // 색상 값이 0~1 범위에 있다고 가정하고 0~255 범위로 변환
-        int r = (int)(255.999 * color.x);
-        int g = (int)(255.999 * color.y);
-        int b = (int)(255.999 * color.z);
-        // 색상 값을 StringBuilder에 추가
-        sb.AppendLine($"{r} {g} {b}");
+        Interval intensity = new Interval(0.000, 0.999);
+        int rbyte = (int)(256 * intensity.Clamp(color.x));
+        int gbyte = (int)(256 * intensity.Clamp(color.y));
+        int bbyte = (int)(256 * intensity.Clamp(color.z));
+
+        sb.AppendLine($"{rbyte} {gbyte} {bbyte}");
     }
 }

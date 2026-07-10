@@ -9,7 +9,7 @@
         this.radius = radius;
     }
 
-    public bool Hit(in Ray r, double tMin, double tMax, out HitRecord rec)
+    public bool Hit(in Ray r, Interval rayT, out HitRecord rec)
     {
         rec = new HitRecord();
         Vector3 oc = center - r.origin;
@@ -23,15 +23,16 @@
         double sqrtD = Math.Sqrt(discriminant);
 
         double root = (h - sqrtD) / a;
-        if(root <= tMin || tMax <= root)
+        if(root <= rayT.min || rayT.max <= root)
         {
             root = (h + sqrtD) / a;
-            if (root <= tMin || tMax <= root) return false;
+            if (root <= rayT.min || rayT.max <= root) return false;
         }
 
         rec.t = root;
         rec.p = r.At(rec.t);
-        rec.normal = (rec.p - center) / radius;
+        Vector3 outwardNormal = (rec.p - center) / radius;
+        rec.SetFaceNormal(r, outwardNormal);
 
         return true;
     }

@@ -1,28 +1,94 @@
-﻿public class Camera
-{
-    private double aspectRatio;
-    private double viewportHeight;
-    private double viewportWidth;
-    public Point3 cameraCenter { get; }
-    public Vector3 viewportOrigin { get; }
-    public Vector3 viewportU { get; }
-    public Vector3 viewportV { get; }
-    public Point3 pixel00 { get; }
-    public Vector3 pixelU { get; }
-    public Vector3 pixelV { get; }
-    
+﻿using System.Text;
+using System.Text.Json.Serialization;
 
-    public Camera(int imageWidth, int imageHeight, Vector3 cameraPos, double focalLength = 1.0f)
+public class Camera
+{
+    public double aspectRatio = 1.0;
+    public int imageWidth = 100;
+    public int samplesPerPixel = 100;
+    private int imageHeight;
+    private double pixelSamplesScale;
+    private Point3 cameraCenter;
+    private Point3 pixel00;
+    private Vector3 pixelU;
+    private Vector3 pixelV;
+    private StringBuilder sb = new StringBuilder();
+    private static readonly Random random = new Random();
+
+    public Camera(int imageWidth, double aspectRatio)
     {
-        this.aspectRatio = (double)imageWidth / imageHeight;
-        this.viewportHeight = 2.0;
-        this.viewportWidth = viewportHeight * aspectRatio;
-        this.viewportU = new Vector3(viewportWidth, 0, 0);
-        this.viewportV = new Vector3(0, -viewportHeight, 0);
-        this.viewportOrigin = cameraCenter - new Vector3(0, 0, focalLength) - viewportU / 2 - viewportV / 2;
-        this.cameraCenter = cameraPos;
-        this.pixelU = viewportU / imageWidth;
-        this.pixelV = viewportV / imageHeight;
-        this.pixel00 = viewportOrigin + 0.5 *(pixelU + pixelV);
+        this.imageWidth = imageWidth;
+        this.aspectRatio = aspectRatio;
+    }
+
+    private void Initialize()
+    {
+        imageHeight = (int)(imageWidth / aspectRatio);
+        imageHeight = (imageHeight < 1) ? 1 : imageHeight;
+        pixelSamplesScale = 1.0 / samplesPerPixel;
+
+        cameraCenter = new Point3(0, 0, 0);
+
+        double focalLength = 1.0;
+        double viewportHeight = 2.0;
+        double viewportWidth = viewportHeight * (double)imageWidth / imageHeight;
+
+        Vector3 viewportU = new Vector3(viewportWidth, 0, 0);
+        Vector3 viewportV = new Vector3(0, -viewportHeight, 0);
+
+        pixelU = viewportU / imageWidth;
+        pixelV = viewportV / imageHeight;
+
+        Point3 viewportOrigin = cameraCenter - new Vector3(0, 0, focalLength) - viewportU / 2 - viewportV / 2;
+        pixel00 = viewportOrigin + 0.5 * (pixelU + pixelV);
+    }
+
+    private Color RayColor(in Ray r, in IHittable world)
+    {
+        HitRecord rec;
+        if (world.Hit(r, new Interval(0, double.PositiveInfinity), out rec))
+        {
+            return 0.5 * (rec.normal + new Color(1, 1, 1));
+        }
+
+        Vector3 unitDirection = r.direction.normalized;
+        double a = 0.5 * (unitDirection.y + 1.0);
+        return (1.0 - a) * new Color(1.0, 1.0, 1.0) + a * new Color(0.5, 0.7, 1.0);
+    }
+
+    private Ray GetRay(int i, int j)
+    {
+        Vector3 offset = SampleSquare();
+        Point3 pixelSample = pixel00 + ((i + offset.x) * pixelU) + ((j + offset.y) * pixelV);
+        Point3 rayOrigin = cameraCenter;
+        Vector3 rayDirection = pixelSample - rayOrigin;
+        return new Ray(rayOrigin, rayDirection);
+    }
+
+    private Vector3 SampleSquare()
+    {
+        return new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, 0);
+    }
+
+    public void Render(IHittable world)
+    {
+        Initialize();
+
+        sb.Append($"P3\n{imageWidth} {imageHeight}\n255\n");
+
+        for (int y = 0; y < imageHeight; y++)
+        {
+            for (int x = 0; x < imageWidth; x++)
+            {
+                Color pixelColor = new Color(0, 0, 0);
+                for(int sample = 0; sample < samplesPerPixel; sample++)
+                {
+                    Ray r = GetRay(x, y);
+                    pixelColor += RayColor(r, world);
+                }
+                ColorUtility.WriteColor(pixelSamplesScale * pixelColor, sb);
+            }
+        }
+        File.WriteAllText("./output.ppm", sb.ToString());
     }
 }

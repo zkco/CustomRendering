@@ -13,6 +13,18 @@ public struct Vector3
         get => this / this.magnitude;
     }
 
+    public static Vector3 RandomVector() => new Vector3(Random.Shared.NextDouble(), Random.Shared.NextDouble(), Random.Shared.NextDouble());
+    public static Vector3 RandomVector(double min, double max) => new Vector3(min + (max - min) * Random.Shared.NextDouble(), min + (max - min) * Random.Shared.NextDouble(), min + (max - min) * Random.Shared.NextDouble());
+    public static Vector3 RandomUnitVector()
+    {
+        while(true)
+        {
+            Vector3 p = RandomVector(-1, 1);
+            double lenq = p.squaredLength;
+            if(1e-160 < lenq && lenq <= 1) return p / Math.Sqrt(lenq);
+        }
+    }
+
     //Vector3 간의 연산을 위한 연산자 오버로딩들
     public static Vector3 operator -(Vector3 v)
     {
