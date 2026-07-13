@@ -25,6 +25,13 @@ public struct Vector3
         }
     }
 
+    public static Vector3 RandomOnHemisphere(in Vector3 normal)
+    {
+        Vector3 OnUnitSphere = Vector3.RandomUnitVector();
+        if (Dot(OnUnitSphere, normal) > 0.0) return OnUnitSphere;
+        else return -OnUnitSphere;
+    }
+
     //Vector3 간의 연산을 위한 연산자 오버로딩들
     public static Vector3 operator -(Vector3 v)
     {

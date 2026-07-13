@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using System.Text.Json.Serialization;
 
 public class Camera
 {
     public double aspectRatio = 1.0;
     public int imageWidth = 100;
     public int samplesPerPixel = 100;
+    public int maxDepth = 50;
     private int imageHeight;
     private double pixelSamplesScale;
     private Point3 cameraCenter;
@@ -43,12 +43,14 @@ public class Camera
         pixel00 = viewportOrigin + 0.5 * (pixelU + pixelV);
     }
 
-    private Color RayColor(in Ray r, in IHittable world)
+    private Color RayColor(in Ray r, int depth, in IHittable world)
     {
+        if (depth <= 0) return new Color(0, 0, 0);
         HitRecord rec;
-        if (world.Hit(r, new Interval(0, double.PositiveInfinity), out rec))
+        if (world.Hit(r, new Interval(0.001, double.PositiveInfinity), out rec))
         {
-            return 0.5 * (rec.normal + new Color(1, 1, 1));
+            Vector3 dir = rec.normal + Vector3.RandomUnitVector();
+            return 0.5 * RayColor(new Ray(rec.p, dir), depth-1, world);
         }
 
         Vector3 unitDirection = r.direction.normalized;
@@ -84,7 +86,7 @@ public class Camera
                 for(int sample = 0; sample < samplesPerPixel; sample++)
                 {
                     Ray r = GetRay(x, y);
-                    pixelColor += RayColor(r, world);
+                    pixelColor += RayColor(r, maxDepth, world);
                 }
                 ColorUtility.WriteColor(pixelSamplesScale * pixelColor, sb);
             }
