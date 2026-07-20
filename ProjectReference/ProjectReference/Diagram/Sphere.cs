@@ -2,11 +2,13 @@
 {
     private Point3 center;
     private double radius;
+    private Material mat;
 
-    public Sphere(Point3 center, double radius)
+    public Sphere(Point3 center, double radius, Material mat)
     {
         this.center = center;
         this.radius = radius;
+        this.mat = mat;
     }
 
     public bool Hit(in Ray r, Interval rayT, out HitRecord rec)
@@ -33,6 +35,7 @@
         rec.p = r.At(rec.t);
         Vector3 outwardNormal = (rec.p - center) / radius;
         rec.SetFaceNormal(r, outwardNormal);
+        rec.mat = this.mat;
 
         return true;
     }

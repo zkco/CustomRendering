@@ -47,10 +47,14 @@ public class Camera
     {
         if (depth <= 0) return new Color(0, 0, 0);
         HitRecord rec;
+
         if (world.Hit(r, new Interval(0.001, double.PositiveInfinity), out rec))
         {
-            Vector3 dir = rec.normal + Vector3.RandomUnitVector();
-            return 0.5 * RayColor(new Ray(rec.p, dir), depth-1, world);
+            Ray scattered;
+            Color attenuation;
+            if (rec.mat.Scatter(r, rec, out attenuation, out scattered))
+                return attenuation * RayColor(scattered, depth - 1, world);
+            return new Color(0, 0, 0);
         }
 
         Vector3 unitDirection = r.direction.normalized;
@@ -80,6 +84,7 @@ public class Camera
 
         for (int y = 0; y < imageHeight; y++)
         {
+            Console.Error.WriteLine($"{y + 1}/{imageHeight} Rendering...");
             for (int x = 0; x < imageWidth; x++)
             {
                 Color pixelColor = new Color(0, 0, 0);
@@ -91,6 +96,7 @@ public class Camera
                 ColorUtility.WriteColor(pixelSamplesScale * pixelColor, sb);
             }
         }
+        Console.Error.WriteLine("Rendering Done");
         File.WriteAllText("./output.ppm", sb.ToString());
     }
 }

@@ -32,6 +32,19 @@ public struct Vector3
         else return -OnUnitSphere;
     }
 
+    public static Vector3 reflect(in Vector3 v, in Vector3 n)
+    {
+        return v - 2 * Dot(v, n) * n;
+    }
+
+    public static Vector3 refract(in Vector3 uv, in Vector3 n, double eta)
+    {
+        double cosTheta = Math.Min(Dot(-uv, n), 1.0);
+        Vector3 rBot = eta * (uv + cosTheta * n);
+        Vector3 rVert = -Math.Sqrt(Math.Abs(1.0 - rBot.squaredLength)) * n;
+        return rBot + rVert;
+    }
+
     //Vector3 간의 연산을 위한 연산자 오버로딩들
     public static Vector3 operator -(Vector3 v)
     {

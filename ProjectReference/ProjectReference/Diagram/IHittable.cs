@@ -9,6 +9,8 @@ public struct HitRecord
     public Vector3 normal;
     public double t;
     public bool frontFace;
+    public Material mat;
+
     public void SetFaceNormal(in Ray r, in Vector3 outwardNormal)
     {
         frontFace = Vector3.Dot(r.direction, outwardNormal) < 0;
@@ -54,7 +56,7 @@ public struct HittableList : IHittable
             if (obj.Hit(r, new Interval(rayT.min, closestSoFar), out tempRec))
             {
                 hitAnything = true;
-                closestSoFar = rec.t;
+                closestSoFar = tempRec.t;
                 rec = tempRec;
             }
         }
