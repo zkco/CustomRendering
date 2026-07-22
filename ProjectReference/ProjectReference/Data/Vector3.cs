@@ -41,8 +41,17 @@ public struct Vector3
     {
         double cosTheta = Math.Min(Dot(-uv, n), 1.0);
         Vector3 rBot = eta * (uv + cosTheta * n);
-        Vector3 rVert = -Math.Sqrt(Math.Abs(1.0 - rBot.squaredLength)) * n;
+        Vector3 rVert = Math.Sqrt(Math.Abs(1.0 - rBot.squaredLength)) * -n;
         return rBot + rVert;
+    }
+
+    public static Vector3 RandomUnitDisk()
+    {
+        while(true)
+        {
+            Vector3 p = new Vector3(Random.Shared.NextDouble() * 2 - 1, Random.Shared.NextDouble() * 2 - 1, 0);
+            if (p.squaredLength < 1) return p;
+        }
     }
 
     //Vector3 간의 연산을 위한 연산자 오버로딩들
@@ -94,9 +103,9 @@ public struct Vector3
     public static Vector3 Cross(Vector3 u, Vector3 v)
     {
         return new Vector3(
-            u.x * v.y - u.y * v.x,   
-            u.y * v.z - u.z * v.y,
-            u.z * v.x - u.x * v.z
+            u.y * v.z - u.z * v.y,   // X 
+            u.z * v.x - u.x * v.z,   // Y 
+            u.x * v.y - u.y * v.x    // Z 
         );
     }
 }

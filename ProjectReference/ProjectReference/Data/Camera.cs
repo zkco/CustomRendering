@@ -6,6 +6,15 @@ public class Camera
     public int imageWidth = 100;
     public int samplesPerPixel = 100;
     public int maxDepth = 50;
+    public double vfov = 90;
+
+    public Point3 lookFrom = new Point3(0, 0, 0);
+    public Point3 lookAt = new Point3(0, 0, -1);
+    public Vector3 vUp = new Vector3(0, 1, 0);
+
+    public double defocusAngle = 0;
+    public double focusDist = 10;
+
     private int imageHeight;
     private double pixelSamplesScale;
     private Point3 cameraCenter;
@@ -14,6 +23,10 @@ public class Camera
     private Vector3 pixelV;
     private StringBuilder sb = new StringBuilder();
     private static readonly Random random = new Random();
+    private Vector3 u, v, w;
+    private Vector3 defocusU;
+    private Vector3 defocusV;
+
 
     public Camera(int imageWidth, double aspectRatio)
     {
@@ -27,20 +40,30 @@ public class Camera
         imageHeight = (imageHeight < 1) ? 1 : imageHeight;
         pixelSamplesScale = 1.0 / samplesPerPixel;
 
-        cameraCenter = new Point3(0, 0, 0);
+        cameraCenter = lookFrom;
 
-        double focalLength = 1.0;
-        double viewportHeight = 2.0;
+        double focalLength = (lookFrom - lookAt).magnitude;
+        double theta = vfov * Math.PI / 180.0;
+        double h = Math.Tan(theta / 2);
+        double viewportHeight = 2.0 * h * focusDist;
         double viewportWidth = viewportHeight * (double)imageWidth / imageHeight;
 
-        Vector3 viewportU = new Vector3(viewportWidth, 0, 0);
-        Vector3 viewportV = new Vector3(0, -viewportHeight, 0);
+        w = (lookFrom - lookAt).normalized;
+        u = (Vector3.Cross(vUp, w)).normalized;
+        v = Vector3.Cross(w, u);
+
+        Vector3 viewportU = viewportWidth * u;
+        Vector3 viewportV = viewportHeight * -v;
 
         pixelU = viewportU / imageWidth;
         pixelV = viewportV / imageHeight;
 
-        Point3 viewportOrigin = cameraCenter - new Vector3(0, 0, focalLength) - viewportU / 2 - viewportV / 2;
+        Point3 viewportOrigin = cameraCenter - (focusDist * w) - viewportU / 2 - viewportV / 2;
         pixel00 = viewportOrigin + 0.5 * (pixelU + pixelV);
+
+        double defocusRadius = focusDist * Math.Tan(defocusAngle / 360 * Math.PI);
+        defocusU = u * defocusRadius;
+        defocusV = v * defocusRadius;
     }
 
     private Color RayColor(in Ray r, int depth, in IHittable world)
@@ -66,9 +89,15 @@ public class Camera
     {
         Vector3 offset = SampleSquare();
         Point3 pixelSample = pixel00 + ((i + offset.x) * pixelU) + ((j + offset.y) * pixelV);
-        Point3 rayOrigin = cameraCenter;
+        Point3 rayOrigin = defocusAngle <= 0 ? cameraCenter : defocusDiskSample();
         Vector3 rayDirection = pixelSample - rayOrigin;
         return new Ray(rayOrigin, rayDirection);
+    }
+
+    private Color defocusDiskSample()
+    {
+        Vector3 p = Vector3.RandomUnitDisk();
+        return cameraCenter + (p.x * defocusU) + (p.y * defocusV);
     }
 
     private Vector3 SampleSquare()
