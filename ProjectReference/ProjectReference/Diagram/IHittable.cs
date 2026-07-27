@@ -1,6 +1,7 @@
 ﻿public interface IHittable
 {
     bool Hit(in Ray r, Interval rayT, out HitRecord rec);
+    AABB BoundingBox();
 }
 
 public struct HitRecord
@@ -22,6 +23,7 @@ public struct HitRecord
 public struct HittableList : IHittable
 {
     public List<IHittable> objects { get; set; }
+    private AABB bbox;
 
     public HittableList()
     {
@@ -41,6 +43,7 @@ public struct HittableList : IHittable
     public void add(IHittable obj)
     {
         objects.Add(obj);
+        bbox = new AABB(bbox, obj.BoundingBox());
     }
 
     public bool Hit(in Ray r, Interval rayT, out HitRecord rec)
@@ -61,5 +64,10 @@ public struct HittableList : IHittable
             }
         }
         return hitAnything;
+    }
+
+    public AABB BoundingBox()
+    {
+        return bbox;
     }
 }

@@ -3,12 +3,20 @@
     private Point3 center;
     private double radius;
     private Material mat;
+    private AABB bbox;
 
     public Sphere(Point3 center, double radius, Material mat)
     {
         this.center = center;
-        this.radius = radius;
+        this.radius = Math.Max(0, radius);
         this.mat = mat;
+        Vector3 rvec = new Vector3(radius, radius, radius);
+        bbox = new AABB(center - rvec, center + rvec);
+    }
+
+    public AABB BoundingBox()
+    {
+        return bbox;
     }
 
     public bool Hit(in Ray r, Interval rayT, out HitRecord rec)

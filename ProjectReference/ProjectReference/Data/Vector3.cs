@@ -6,12 +6,37 @@ public struct Vector3
     public double x { get; private set; }
     public double y { get; private set; }
     public double z { get; private set; }
-    private double squaredLength => x * x + y * y + z * z;
     public double magnitude => Math.Sqrt(squaredLength);
     public Vector3 normalized
     {
         get => this / this.magnitude;
     }
+    
+    public double this[int index]
+    {
+        get
+        {
+            return index switch
+            {
+                0 => this.x,
+                1 => this.y,
+                2 => this.z,
+                _ => throw new IndexOutOfRangeException()
+            };
+        }
+        set
+        {
+            switch (index)
+            {
+                case 0: this.x = value; break;
+                case 1: this.y = value; break;
+                case 2: this.z = value; break;
+                default: throw new IndexOutOfRangeException();
+            }
+        }
+    }
+    
+    private double squaredLength => x * x + y * y + z * z;
 
     public static Vector3 RandomVector() => new Vector3(Random.Shared.NextDouble(), Random.Shared.NextDouble(), Random.Shared.NextDouble());
     public static Vector3 RandomVector(double min, double max) => new Vector3(min + (max - min) * Random.Shared.NextDouble(), min + (max - min) * Random.Shared.NextDouble(), min + (max - min) * Random.Shared.NextDouble());
