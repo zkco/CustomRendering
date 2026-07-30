@@ -1,5 +1,24 @@
 # 코드로 구현하는 3D 그래픽스 메쉬 생성부터 레이트레이싱까지
 
+## Getting Started
+
+### Prerequisites
+- {Unity verison 기재}
+- .net 9.0 이상
+
+### Installation
+1. Cloning Project
+   ```git
+   git clone https://github.com/zkco/CustomRendering
+   ```
+3. Build Project File
+
+### Running
+```bash
+   dotnet run {buildfile}.dll
+```
+
+
 ## Learning with UNITY
 Unity를 통합 개발 환경(IDE)으로 인식하고 사용하기
 -----------------------------------------
@@ -32,3 +51,5 @@ Unity를 통합 개발 환경(IDE)으로 인식하고 사용하기
 - Sphere 외의 Square, Triangle 의 오브젝트를 생성하기
 - Texture Mapping을 통한 이미지를 오브젝트에 적용하기
 - Triangle 오브젝트 알고리즘 기반 OBJ 파일 로더를 통한 오브젝트 생성하기
+
+
