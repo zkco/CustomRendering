@@ -14,6 +14,10 @@
 3. Build Project File
 
 ### Running
+Chapter 1 ~ 2
+
+
+Chapter 3 ~ 5
 ```bash
    dotnet run {buildfile}.dll
 ```
