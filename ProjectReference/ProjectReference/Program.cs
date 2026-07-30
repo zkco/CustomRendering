@@ -47,12 +47,88 @@
         cam.Render(new HittableList(globe));
     }
 
+    static void Squares()
+    {
+        HittableList world = new HittableList();
+
+        Material red = new Lambertian(new Color(1.0, 0.2, 0.2));
+        Material green = new Lambertian(new Color(0.2, 1.0, 0.2));
+        Material blue = new Lambertian(new Color(0.2, 0.2, 1.0));
+        Material orange = new Lambertian(new Color(1.0, 0.5, 0.0));
+        Material teal = new Lambertian(new Color(0.2, 0.8, 0.8));
+
+        world.add(new Square(new Point3(-3, -2, 5), new Vector3(0, 0, -4), new Vector3(0, 4, 0), red));
+        world.add(new Square(new Point3(-2, -2, 0), new Vector3(4, 0, 0), new Vector3(0, 4, 0), green));
+        world.add(new Square(new Point3(3, -2, 1), new Vector3(0, 0, 4), new Vector3(0, 4, 0), blue));
+        world.add(new Square(new Point3(-2, 3, 1), new Vector3(4, 0, 0), new Vector3(0, 0, 4), orange));
+        world.add(new Square(new Point3(-2, -3, 5), new Vector3(4, 0, 0), new Vector3(0, 0, -4), teal));
+
+        Camera cam = new Camera(400, 1.0);
+        cam.samplesPerPixel = 100;
+        cam.maxDepth = 50;
+        cam.vfov = 80;
+        cam.lookFrom = new Point3(0, 0, 9);
+        cam.lookAt = new Point3(0, 0, 0);
+        cam.vUp = new Vector3(0, 1, 0);
+        cam.defocusAngle = 0;
+
+        cam.Render(world);
+    }
+
+    static void Triangles()
+    {
+        HittableList world = new HittableList();
+
+        Material red = new Lambertian(new Color(1.0, 0.2, 0.2));
+        Material green = new Lambertian(new Color(0.2, 1.0, 0.2));
+        Material blue = new Lambertian(new Color(0.2, 0.2, 1.0));
+
+        world.add(new Triangle(new Point3(0.2, 0.2, 0), new Point3(4, 0.2, 0), new Point3(0.2, 4, 0), red));
+        world.add(new Triangle(new Point3(0.2, 0, 0.2), new Point3(4, 0, 0.2), new Point3(0.2, 0, 4), green));
+        world.add(new Triangle(new Point3(0, 0.2, 0.2), new Point3(0, 0.2, 4), new Point3(0, 4, 0.2), blue));
+
+        Camera cam = new Camera(400, 1.0);
+        cam.samplesPerPixel = 100;
+        cam.maxDepth = 50;
+        cam.vfov = 20;
+        cam.lookFrom = new Point3(10, 15, 10);
+        cam.lookAt = new Point3(0, 0, 0);
+        cam.vUp = new Vector3(0, 1, 0);
+        cam.defocusAngle = 0;
+
+        cam.Render(world);
+    }
+
+    static void OBJLoad()
+    {
+        HittableList world = new HittableList();
+
+        Material basic = new Lambertian(new Color(0.8, 0.8, 0.8));
+
+        ObjLoader loader = new ObjLoader("monkey.obj");
+        loader.LoadToWorld(basic, world);
+
+        Camera cam = new Camera(400, 16.0 / 9.0);
+        cam.samplesPerPixel = 100;
+        cam.maxDepth = 50;
+        cam.vfov = 20;
+        cam.lookFrom = new Point3(7, 7, 7);
+        cam.lookAt = new Point3(0, 0, 0);
+        cam.vUp = new Vector3(0, 1, 0);
+        cam.defocusAngle = 0;
+
+        cam.Render(world);
+    }
+
     static void Main()
     {
-        switch(1)
+        switch(4)
         {
             case 0: Basic(); break;
             case 1: TextureRender(); break;
+            case 2: Squares(); break;
+            case 3: Triangles(); break;
+            case 4: OBJLoad(); break;
         }
     }
 }
