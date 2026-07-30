@@ -7,9 +7,9 @@
 //        Material ground = new Lambertian(new Color(0.5, 0.5, 0.5));
 //        world.add(new Sphere(new Point3(0, -1000, 0), 1000, ground));
 
-//        for(int a = -11; a < 11; a++)
+//        for (int a = -11; a < 11; a++)
 //        {
-//            for(int b = -11; b < 11; b++)
+//            for (int b = -11; b < 11; b++)
 //            {
 //                double mat = Random.Shared.NextDouble();
 //                Point3 center = new Point3(a + 0.9 * Random.Shared.NextDouble(), 0.2, b + 0.9 * Random.Shared.NextDouble());
@@ -18,7 +18,7 @@
 //                {
 //                    Material sphereMat;
 
-//                    if(mat < 0.8)
+//                    if (mat < 0.8)
 //                    {
 //                        Color albedo = Color.RandomVector() * Color.RandomVector();
 //                        sphereMat = new Lambertian(albedo);
@@ -48,7 +48,9 @@
 //        world.add(new Sphere(new Point3(-4, 1, 0), 1.0, material2));
 //        world.add(new Sphere(new Point3(4, 1, 0), 1.0, material3));
 
-//        Camera cam = new Camera(1200, 16.0/9.0);
+//        world = new HittableList(new BVHNode(world));
+
+//        Camera cam = new Camera(1200, 16.0 / 9.0);
 //        cam.samplesPerPixel = 500;
 //        cam.maxDepth = 50;
 

@@ -8,9 +8,17 @@ public abstract class Material
 
 public class Lambertian : Material
 {
+    private Texture tex;
+
     public Lambertian(Color albedo)
     {
         this.albedo = albedo;
+        this.tex = new Solid(albedo);
+    }
+
+    public Lambertian(Texture tex)
+    {
+        this.tex = tex;
     }
 
     public override bool Scatter(in Ray r, in HitRecord rec, out Color attenuation, out Ray scattered)
@@ -19,7 +27,7 @@ public class Lambertian : Material
         if (Math.Abs(scatterDir.x) < 1e-8 && Math.Abs(scatterDir.y) < 1e-8
             && Math.Abs(scatterDir.z) < 1e-8) scatterDir = rec.normal;
         scattered = new Ray(rec.p, scatterDir);
-        attenuation = albedo;
+        attenuation = tex.Value(rec.u, rec.v, rec.p);
         return true;
     }
 }

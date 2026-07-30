@@ -9,14 +9,15 @@ public struct HitRecord
     public Point3 p;
     public Vector3 normal;
     public double t;
+    public double u;
+    public double v;
     public bool frontFace;
     public Material mat;
-
+    
     public void SetFaceNormal(in Ray r, in Vector3 outwardNormal)
     {
         frontFace = Vector3.Dot(r.direction, outwardNormal) < 0;
         normal = frontFace ? outwardNormal : -outwardNormal;
-        
     }
 }
 
@@ -33,6 +34,7 @@ public struct HittableList : IHittable
     {
         objects = new List<IHittable>();
         objects.Add(obj);
+        bbox = obj.BoundingBox();
     }
 
     public void Clear()
@@ -43,7 +45,11 @@ public struct HittableList : IHittable
     public void add(IHittable obj)
     {
         objects.Add(obj);
-        bbox = new AABB(bbox, obj.BoundingBox());
+        if (objects.Count == 1)
+        {
+            bbox = obj.BoundingBox();
+        }
+        else bbox = new AABB(bbox, obj.BoundingBox());
     }
 
     public bool Hit(in Ray r, Interval rayT, out HitRecord rec)

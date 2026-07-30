@@ -1,6 +1,6 @@
 ﻿public class Program
 {
-    static void Main()
+    static void Basic()
     {
         Camera mainCam = new Camera(400, 16.0 / 9.0);
         mainCam.samplesPerPixel = 100;
@@ -25,6 +25,34 @@
         world.add(new Sphere(new Point3(-1.0, 0.0, -1.0), 0.4, bubble));
         world.add(new Sphere(new Point3(1.0, 0.0, -1.0), 0.5, right));
 
+        world = new HittableList(new BVHNode(world));
+
         mainCam.Render(world);
+    }
+
+    static void TextureRender()
+    {
+        Texture tex = new Image("Smile.jpg"); //images 폴더 내부에 위치
+        Material surface = new Lambertian(tex);
+        Sphere globe = new Sphere(new Point3(0, 0, 0), 2, surface);
+
+        Camera cam = new Camera(400, 16.0 / 9.0);
+        cam.samplesPerPixel = 100;
+        cam.maxDepth = 50;
+        cam.vfov = 20;
+        cam.lookFrom = new Point3(12, 0, 0);
+        cam.lookAt = new Point3(0, 0, 0);
+        cam.defocusAngle = 0;
+
+        cam.Render(new HittableList(globe));
+    }
+
+    static void Main()
+    {
+        switch(1)
+        {
+            case 0: Basic(); break;
+            case 1: TextureRender(); break;
+        }
     }
 }

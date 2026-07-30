@@ -1,4 +1,6 @@
-﻿public struct BVHNode : IHittable
+﻿using System.Reflection.Metadata.Ecma335;
+
+public struct BVHNode : IHittable
 {
     private IHittable left;
     private IHittable right;
@@ -13,6 +15,7 @@
     {
         int axis = Random.Shared.Next(0, 3);
 
+        //축 정렬 기준 생성
         IComparer<IHittable> comparator = Comparer<IHittable>.Create((a, b) =>
         {
             Interval aInterval = a.BoundingBox().AxisInterval(axis);
@@ -51,22 +54,12 @@
         double rightMax = hitLeft ? leftRec.t : rayT.max;
         bool hitRight = right.Hit(r, new Interval(rayT.min, rightMax), out HitRecord rightRec);
 
-        if(hitRight)
-        {
-            rec = rightRec;
-            return true;
-        }
-        else if(hitLeft)
-        {
-            rec = leftRec;
-            return true;
-        }
-        return false;
+        rec = hitRight ? rightRec : hitLeft ? leftRec : rec;
+        return hitRight || hitLeft;
     }
 
     public AABB BoundingBox()
     {
         return bbox;
     }
-
 }

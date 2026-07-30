@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VO3f9lylDWA=",
+  "dgSpecHash": "ZfkCZhI85R0=",
   "success": true,
   "projectFilePath": "D:\\csProj\\ProjectReference\\CustomRendering\\ProjectReference\\ProjectReference\\ProjectReference.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\qkren\\.nuget\\packages\\stbimagesharp\\2.30.15\\stbimagesharp.2.30.15.nupkg.sha512"
+  ],
   "logs": []
 }

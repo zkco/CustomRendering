@@ -43,8 +43,18 @@
         rec.p = r.At(rec.t);
         Vector3 outwardNormal = (rec.p - center) / radius;
         rec.SetFaceNormal(r, outwardNormal);
+        GetUV(outwardNormal, out rec.u, out rec.v);
         rec.mat = this.mat;
 
         return true;
     }
-}
+
+    static void GetUV(Point3 p, out double u, out double v)
+    {
+        double theta = Math.Acos(-p.y);
+        double phi = Math.Atan2(-p.z, p.x) + Math.PI;
+
+        u = phi / (2 * Math.PI);
+        v = theta / Math.PI;
+    }
+} 

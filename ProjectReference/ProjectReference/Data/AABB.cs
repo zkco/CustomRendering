@@ -8,18 +8,30 @@
         this.x = x;
         this.y = y;
         this.z = z;
+        PadToMinimums();
     }
+
     public AABB(in Point3 a, in Point3 b)
     {
-        x = (a.x > b.x) ? new Interval(a.x, b.x) : new Interval(b.x, a.x);
-        y = (a.y > b.y) ? new Interval(a.y, b.y) : new Interval(b.y, a.y);
-        z = (a.z > b.z) ? new Interval(a.z, b.z) : new Interval(b.z, a.z);
+        x = new Interval(Math.Min(a.x, b.x), Math.Max(a.x, b.x));
+        y = new Interval(Math.Min(a.y, b.y), Math.Max(a.y, b.y));
+        z = new Interval(Math.Min(a.z, b.z), Math.Max(a.z, b.z));
+        PadToMinimums();
     }
+
     public AABB(in AABB box0, in AABB box1)
     {
-        x = new Interval(box0.x, box1.x);
-        y = new Interval(box0.y, box1.y);
-        z = new Interval(box0.z, box1.z);
+        x = new Interval(Math.Min(box0.x.min, box1.x.min), Math.Max(box0.x.max, box1.x.max));
+        y = new Interval(Math.Min(box0.y.min, box1.y.min), Math.Max(box0.y.max, box1.y.max));
+        z = new Interval(Math.Min(box0.z.min, box1.z.min), Math.Max(box0.z.max, box1.z.max));
+        PadToMinimums();
+    }
+    private void PadToMinimums()
+    {
+        double delta = 0.0001;
+        if (x.Size() < delta) x = x.Expand(delta);
+        if (y.Size() < delta) y = y.Expand(delta);
+        if (z.Size() < delta) z = z.Expand(delta);
     }
 
     public Interval AxisInterval(int n)
