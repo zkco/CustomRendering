@@ -4,14 +4,25 @@
 
 ### Prerequisites
 - Unity verison 6000.0.74f1
-- .net 9.0 이상
+- .NET 9.0 이상
 
 ### Installation
 1. Cloning Project
    ```git
    git clone https://github.com/zkco/CustomRendering
    ```
-3. Build Project File
+2. Build Project File
+
+   Chapter 1 ~ 2
+      1. [Unity Download Archive](https://unity.com/kr/releases/editor/archive) 6.000.0.74f1 버전 다운로드
+      2. 3D URP 프로젝트 생성
+      3. Chapter [1,2] 코드와 에셋을 사용
+      
+   Chapter 3 ~ 5
+      1. Visual Studio 새 프로젝트 생성
+      2. 프로젝트 템플릿 : 콘솔 앱
+      3. 프레임워크를 .NET 9.0 이상으로 사용
+      4. Github 내부의 Chapter [3,4,5] 폴더의 코드를 사용하여 빌드
 
 ### Running
 Chapter 1 ~ 2
@@ -23,6 +34,7 @@ Chapter 3 ~ 5
 ```bash
    dotnet run {buildfile}.dll
 ```
+   또는 Visual Studio에서 Program.cs 컴파일
 
 
 ## Learning with UNITY
@@ -39,11 +51,6 @@ Unity를 통합 개발 환경(IDE)으로 인식하고 사용하기
 - 파일 입출력 및 파싱(parsing) 알고리즘 구현하기(OBJ)
 - 파일 입출력 및 파싱(parsing) 알고리즘 구현하기(STL)
 - 외부 3D 데이터를 유니티 메쉬로 변환 및 시각화
-
-
-
-
-
 
 
 
