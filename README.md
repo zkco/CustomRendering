@@ -3,7 +3,7 @@
 ## Getting Started
 
 ### Prerequisites
-- {Unity verison 기재}
+- Unity verison 6000.0.74f1
 - .net 9.0 이상
 
 ### Installation
@@ -15,7 +15,9 @@
 
 ### Running
 Chapter 1 ~ 2
-
+```
+   유니티 실행 후 빈 오브젝트 생성. 다음 c#으로 컴포넌트 작성 후 빈 오브젝트에 이식
+```
 
 Chapter 3 ~ 5
 ```bash
@@ -27,8 +29,16 @@ Chapter 3 ~ 5
 Unity를 통합 개발 환경(IDE)으로 인식하고 사용하기
 -----------------------------------------
 ### Chapter 1. 메쉬의 이해와 절차적 생성
+- 정점(Vertex)과 인덱스(Index) 버퍼의 이해
+- 큐브 메쉬의 절차적 생성하기
+- 구(Sphere) 메쉬의 절차적 생성하기
+- 큐브 메쉬의 텍스처 매핑과 동적 제어
+- 구(Sphere) 메쉬의 텍스처 매핑과 최적화하기
 
 ### Chapter 2. 3D 데이터 로더 구현
+- 파일 입출력 및 파싱(parsing) 알고리즘 구현하기(OBJ)
+- 파일 입출력 및 파싱(parsing) 알고리즘 구현하기(STL)
+- 외부 3D 데이터를 유니티 메쉬로 변환 및 시각화
 
 
 
