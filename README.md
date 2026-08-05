@@ -7,30 +7,30 @@
 - .NET 9.0 이상
 
 ### Installation
-1. Cloning Project
+## 1. Cloning Project
    ```git
    git clone https://github.com/zkco/CustomRendering
    ```
-2. Build Project File
-
-   Chapter 1 ~ 2
+   
+## 2. Build Project File
+   #### Chapter 1 ~ 2
       1. [Unity Download Archive](https://unity.com/kr/releases/editor/archive) 6.000.0.74f1 버전 다운로드
       2. 3D URP 프로젝트 생성
       3. Chapter [1,2] 코드와 에셋을 사용
       
-   Chapter 3 ~ 5
+   #### Chapter 3 ~ 5
       1. Visual Studio 새 프로젝트 생성
       2. 프로젝트 템플릿 : 콘솔 앱
       3. 프레임워크를 .NET 9.0 이상으로 사용
       4. Github 내부의 Chapter [3,4,5] 폴더의 코드를 사용하여 빌드
 
-### Running
-Chapter 1 ~ 2
+## 3. Running
+#### Chapter 1 ~ 2
 ```
    유니티 실행 후 빈 오브젝트 생성. 다음 c#으로 컴포넌트 작성 후 빈 오브젝트에 이식
 ```
 
-Chapter 3 ~ 5
+#### Chapter 3 ~ 5
 ```bash
    dotnet run {buildfile}.dll
 ```
@@ -55,7 +55,7 @@ Unity를 통합 개발 환경(IDE)으로 인식하고 사용하기
 
 
 ## Learning with C# (.Net 10.0)
-.Net 10.0 C#을 사용하여 레이트레이싱 엔진을 제작 후 PPM 파일로 렌더링하기
+.Net 10.0 C#을 사용하여 레이트레이싱 엔진을 생성하여 PPM 파일로 렌더링하기
 -----------------------------------------
 ### Chapter 3. 레이트레이싱 엔진 기초
 - C#을 이용한 PPM 이미지 파일을 직접 생성하기
